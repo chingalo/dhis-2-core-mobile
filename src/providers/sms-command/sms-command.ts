@@ -124,7 +124,7 @@ export class SmsCommandProvider {
               currentUser.currentDatabase
             ).subscribe(() => {});
             let smsCommandUrl = '/api/dataStore/sms/commands';
-            this.HttpClient.defaultPost(
+            this.HttpClient.post(
               smsCommandUrl,
               smsCommands,
               currentUser
@@ -134,8 +134,6 @@ export class SmsCommandProvider {
                 observer.complete();
               },
               error => {
-                console.log('Error : ' + JSON.stringify(error));
-                //update data store
                 this.HttpClient.put(
                   smsCommandUrl,
                   smsCommands,
