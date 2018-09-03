@@ -178,10 +178,10 @@ export class LoginMetadataSyncComponent implements OnDestroy, OnInit {
             const { currentUser } = response;
             const { progressTracker } = this.currentUser;
             this.currentUser = _.assign({}, currentUser);
-            this.currentUser.progressTracker = progressTracker
+            //@todo update process tracker for sync module
+            this.currentUser['progressTracker'] = progressTracker
               ? progressTracker
               : {};
-            console.log(JSON.stringify(progressTracker));
             this.currentUser.serverUrl = serverUrl;
             this.overAllMessage = serverUrl;
             this.currentUser.authorizationKey = btoa(
@@ -194,7 +194,7 @@ export class LoginMetadataSyncComponent implements OnDestroy, OnInit {
             const { currentDatabase } = this.currentUser;
             this.resetProgressTracker(this.currentUser, processes);
             const processTracker = this.getProgressTracker(
-              currentUser,
+              this.currentUser,
               processes
             );
             this.currentUser.progressTracker[currentDatabase] = processTracker;
