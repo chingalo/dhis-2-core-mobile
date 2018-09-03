@@ -134,6 +134,7 @@ export class SmsCommandProvider {
                 observer.complete();
               },
               error => {
+                console.log('Error : ' + JSON.stringify(error));
                 //update data store
                 this.HttpClient.put(
                   smsCommandUrl,

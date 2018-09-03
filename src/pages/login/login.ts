@@ -222,9 +222,6 @@ export class LoginPage implements OnInit, OnDestroy {
       loggedInInInstance = this.currentUser.serverUrl.split('://')[1];
     }
     this.reCheckingAppSetting(currentUser);
-    this.smsCommandProvider
-      .checkAndGenerateSmsCommands(currentUser)
-      .subscribe(() => {}, error => {});
     currentUser.hashedKeyForOfflineAuthentication = this.encryptionProvider.getHashedKeyForOfflineAuthentication(
       currentUser
     );
@@ -252,6 +249,9 @@ export class LoginPage implements OnInit, OnDestroy {
               .disable()
               .then(() => {})
               .catch(e => {});
+            this.smsCommandProvider
+              .checkAndGenerateSmsCommands(currentUser)
+              .subscribe(() => {}, error => {});
             this.navCtrl.setRoot(TabsPage);
           });
         });
