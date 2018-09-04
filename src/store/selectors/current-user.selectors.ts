@@ -22,9 +22,10 @@
  *
  */
 import { createSelector } from '@ngrx/store';
+import * as _ from 'lodash';
 import { getRootState, State } from '../reducers';
 import { currentUserAdapter } from '../reducers/current-user.reducers';
-
+import { CurrentUser, AppItem } from '../../models';
 export const getUsersEntityState = createSelector(
   getRootState,
   (state: State) => state.currentUser
@@ -50,3 +51,41 @@ export const getCurrentUser = createSelector(
       : null;
   }
 );
+export const getCurrentUserDataSets = createSelector(
+  getCurrentUser,
+  (currentUser: CurrentUser) => currentUser.dataSets
+);
+
+export const getCurrentUserPrograms = createSelector(
+  getCurrentUser,
+  (currentUser: CurrentUser) => currentUser.programs
+);
+
+export const getCurrentUserAuthorities = createSelector(
+  getCurrentUser,
+  (currentUser: CurrentUser) => currentUser.authorities
+);
+export const getAthorizedApps = (apps: AppItem[]) =>
+  createSelector(
+    getCurrentUserAuthorities,
+    (currentUserAuthorities: string[]) => {
+      let authorizedApps = [];
+      if (_.indexOf(currentUserAuthorities, 'ALL') > -1) {
+        authorizedApps = _.concat(authorizedApps, apps);
+      } else {
+        apps.map(app => {
+          const { authorites } = app;
+          if (authorites.length == 0) {
+            authorizedApps = _.concat(authorizedApps, app);
+          }
+          authorites.map(authority => {
+            if (_.indexOf(currentUserAuthorities, authority) > -1) {
+              authorizedApps = _.concat(authorizedApps, app);
+            }
+          });
+        });
+      }
+      authorizedApps = _.uniqBy(authorizedApps, 'id');
+      return authorizedApps;
+    }
+  );
