@@ -23,7 +23,7 @@
  */
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { State, getAthorizedApps } from '../../store';
 import { AppItem } from '../../models';
 import { Observable } from 'rxjs';
@@ -43,11 +43,11 @@ export class AppsPage {
   currentUserApps$: Observable<any>;
   constructor(public navCtrl: NavController, private store: Store<State>) {
     const apps = this.getAppItems();
-    this.currentUserApps$ = store.select(getAthorizedApps(apps));
+    this.currentUserApps$ = this.store.pipe(select(getAthorizedApps(apps)));
   }
 
   trackByFn(index, item) {
-    return item.id;
+    return item && item.id ? item.id : index;
   }
 
   getAppItems(): Array<AppItem> {

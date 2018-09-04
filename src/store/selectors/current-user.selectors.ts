@@ -51,6 +51,21 @@ export const getCurrentUser = createSelector(
       : null;
   }
 );
+
+export const getAccountTitle = createSelector(
+  getCurrentUser,
+  (currentUser: CurrentUser) => {
+    let accountTitle =
+      currentUser && currentUser.name
+        ? currentUser.name
+            .split(' ')
+            .map(name => name.charAt(0).toUpperCase())
+            .join('')
+        : 'Account';
+    return accountTitle;
+  }
+);
+
 export const getCurrentUserDataSets = createSelector(
   getCurrentUser,
   (currentUser: CurrentUser) => currentUser.dataSets
@@ -65,6 +80,7 @@ export const getCurrentUserAuthorities = createSelector(
   getCurrentUser,
   (currentUser: CurrentUser) => currentUser.authorities
 );
+
 export const getAthorizedApps = (apps: AppItem[]) =>
   createSelector(
     getCurrentUserAuthorities,
