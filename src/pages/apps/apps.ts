@@ -46,8 +46,8 @@ export class AppsPage {
     this.currentUserApps$ = this.store.pipe(select(getAthorizedApps(apps)));
   }
 
-  trackByFn(index, item) {
-    return item && item.id ? item.id : index;
+  onSelectApp(app: AppItem) {
+    this.navCtrl.push(app.pageName);
   }
 
   getAppItems(): Array<AppItem> {
