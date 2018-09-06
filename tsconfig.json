@@ -14,7 +14,7 @@
     "target": "es5"
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts", "../sidemenu/src/models/sms-command.ts", "../sidemenu/src/models/queue-manager.ts", "../sidemenu/src/models/current-user.ts", "../sidemenu/src/models/barcode-settings.ts"
   ],
   "exclude": [
     "node_modules",
